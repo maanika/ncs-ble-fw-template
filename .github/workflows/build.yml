@@ -45,6 +45,22 @@ jobs:
         # Set up the Zephyr workspace and install Python dependencies
         run: |
           cd zephyr-workspace
+          west init -l smart-guitar-amp-fw
+          west update --narrow -o=--depth=1
+          pip3 install -r zephyr/scripts/requirements.txt
+
+      - name: 🔨 Build Project
+        run: |
+          cd zephyr-workspace
           west build \
-            -- board nrf7002dk_nrf5340_cpuapp \
-            -- pristine=always smart-guitar-amp-fw
+            --board nrf7002dk_nrf5340_cpuapp \
+            --pristine=always smart-guitar-amp-fw
+
+      - name: 📦 Save Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            zephyr-workspace/build/zephyr.hex
+            zephyr-workspace/build/zephyr.bin
+            zephyr-workspace/build/zephyr.elf
