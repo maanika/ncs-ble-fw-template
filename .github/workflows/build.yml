@@ -53,7 +53,7 @@ jobs:
         run: |
           cd zephyr-workspace
           west build \
-            --board nrf7002dk_nrf5340_cpuapp \
+            --board custom_plank \
             --pristine=always smart-guitar-amp-fw
 
       - name: 📦 Save Build Artifacts
