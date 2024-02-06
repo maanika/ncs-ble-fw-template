@@ -11,25 +11,25 @@ jobs:
   custom-docker-image-build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/noahp/memfault-nrfconnect-ci-app:2024-01-17
+      image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-06
     steps:
       - uses: actions/checkout@v4
         with:
           # Clone the repo to a subdirectory, so we can initialize the Zephyr
           # workspace in the parent directory.
-          path: zephyr-workspace/nrfconnect-ci-app
+          path: zephyr-workspace/smart-guitar-amp-fw
 
       - name: ♻️ Initialize Zephyr Workspace
         run: |
           cd zephyr-workspace
-          west init -l nrfconnect-ci-app
+          west init -l smart-guitar-amp-fw
           west update --narrow -o=--depth=1 --path-cache /zephyr-workspace-cache
 
       - name: 💾 Cache ~/.cache/ccache
         uses: actions/cache@v3
         with:
           path: ~/.cache/ccache
-          key: ccache-v2-${{ runner.os }}-${{ hashFiles('zephyr-workspace/nrfconnect-ci-app/west.yml') }}
+          key: ccache-v2-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
           restore-keys: |
             ccache-v2-${{ runner.os }}-
 
