@@ -13,8 +13,8 @@ jobs:
     container:
       image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-06
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
