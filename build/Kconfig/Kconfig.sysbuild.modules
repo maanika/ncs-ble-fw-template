@@ -1,0 +1,6 @@
+menu "nrf (C:/projects/smart_guitar_amp/fw/my-workspace/nrf)"
+osource "C:/projects/smart_guitar_amp/fw/my-workspace/nrf/sysbuild/Kconfig.sysbuild"
+config ZEPHYR_NRF_MODULE
+	bool
+	default y
+endmenu

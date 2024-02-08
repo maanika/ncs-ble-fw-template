@@ -1,0 +1,1 @@
+"nrf":"C:/projects/smart_guitar_amp/fw/my-workspace/nrf":"C:/projects/smart_guitar_amp/fw/my-workspace/nrf/sysbuild"
