@@ -11,10 +11,7 @@ jobs:
   custom-docker-image-build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-06
-      credentials:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      image: ghcr.io/maanika/smart-guitar-amp-app:2024-02-08
     steps:
       - uses: actions/checkout@v4
         with:
