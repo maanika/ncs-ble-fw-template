@@ -24,21 +24,21 @@ jobs:
         with:
           # Clone the repo to a subdirectory, so we can initialize the Zephyr
           # workspace in the parent directory.
-          path: zephyr-workspace/nrfconnect-ci-app
+          path: zephyr-workspace/smart-guitar-amp-fw
 
       - name: ♻️ Initialize Zephyr Workspace
         # Set up the Zephyr workspace and install the Python dependencies
         run: |
           cd zephyr-workspace
           rm -rf .west
-          west init -l nrfconnect-ci-app
+          west init -l smart-guitar-amp-fw
           west update --narrow -o=--depth=1
 
       - name: 💾 Cache ~/.cache/ccache
         uses: actions/cache@v3
         with:
           path: ~/.cache/ccache
-          key: ccache-v1-${{ runner.os }}-${{ hashFiles('zephyr-workspace/nrfconnect-ci-app/west.yml') }}
+          key: ccache-v1-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
           restore-keys: |
             ccache-v1-${{ runner.os }}-
 
