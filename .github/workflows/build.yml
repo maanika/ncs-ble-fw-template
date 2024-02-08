@@ -1,53 +1,46 @@
 name: Build
 
 on:
-  push:
   pull_request:
-  schedule:
-    - cron: "0 0 * * *"
+    branches:
+      - main
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      # Zephyr toolchain from here:
+      # https://github.com/zephyrproject-rtos/docker-image/pkgs/container/ci
+      image: ghcr.io/zephyrproject-rtos/ci:v0.26.6
+    env:
+      # Tell cmake where to find the zephyr sdk
+      CMAKE_PREFIX_PATH: /opt/toolchains
     steps:
       - uses: actions/checkout@v4
         with:
           # Clone the repo to a subdirectory, so we can initialize the Zephyr
-          # workspace in the parent directory
-          path: zephyr-workspace/smart-guitar-amp-fw
-
-      - name: 🧰 Install Dependencies + West
-        # Install the Zephyr host build dependencies, and the west Python tool.
-        # This list is from Zephyr's getting started guide:
-        # https://docs.zephyrproject.org/latest/develop/getting_started/index.html
-        run: |
-          sudo apt update
-          sudo apt install --no-install-recommends git cmake ninja-build gperf \
-            ccache dfu-util device-tree-compiler wget \
-            python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
-            make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1
-
-          pip3 install west
-
-      - name: 🪁 Install Zephyr SDK
-        # Fetch the Zephyr SDK from the GitHub Release artifcat, unpack it and
-        # run the setup script, selecting the '-c' option to install cmake
-        # packages and the '-t arm-zephyr-eabi' option to install the toolchain
-        # only for the arm-zephyr-ebai (Cortex-M) architecture, since we don't
-        # need the other toolchains (xtensa, riscv, etc.)
-        run: |
-          wget -q https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/zephyr-sdk-0.16.4_linux-x86_64_minimal.tar.xz
-          tar xf zephyr-sdk-0.16.4_linux-x86_64_minimal.tar.xz -C ~/
-          ~/zephyr-sdk-0.16.4/setup.sh -c -t arm-zephyr-eabi
+          # workspace in the parent directory.
+          path: zephyr-workspace/nrfconnect-ci-app
 
       - name: ♻️ Initialize Zephyr Workspace
-        # Set up the Zephyr workspace and install Python dependencies
+        # Set up the Zephyr workspace and install the Python dependencies
         run: |
           cd zephyr-workspace
-          west init -l smart-guitar-amp-fw
+          rm -rf .west
+          west init -l nrfconnect-ci-app
           west update --narrow -o=--depth=1
-          pip3 install -r zephyr/scripts/requirements.txt
+
+      - name: 💾 Cache ~/.cache/ccache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ccache
+          key: ccache-v1-${{ runner.os }}-${{ hashFiles('zephyr-workspace/nrfconnect-ci-app/west.yml') }}
+          restore-keys: |
+            ccache-v1-${{ runner.os }}-
 
       - name: 🔨 Build Project
         run: |
