@@ -27,7 +27,7 @@ west update
 To build the application, run the following command:
 
 ```shell
-west build -p -b sonic_nrf52820 app
+west build -p -b raytac_mdbt50q_db_20_nrf52820 app -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
 ```
 
 Once you have built the application, run the following command to flash it:

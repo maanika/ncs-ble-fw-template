@@ -5,7 +5,7 @@
  */
 
 /dts-v1/;
-#include <nordic/nrf52820_qiaa.dtsi>
+#include <nordic/nrf52820_qdaa.dtsi>
 #include "raytac_mdbt50q_db_20_nrf52820-pinctrl.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
@@ -27,11 +27,11 @@
 	leds {
 		compatible = "gpio-leds";
 		led0: led_0 {
-			gpios = <&gpio0 17 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 			label = "Green LED 0";
 		};
 		led1: led_1 {
-			gpios = <&gpio0 16 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 			label = "Red LED 1";
 		};
 	};
@@ -60,7 +60,6 @@
 		led0 = &led0;
 		led1 = &led1;
 		sw0 = &button0;
-		sw1 = &button1;
 		sw2 = &button2;
 		sw3 = &button3;
 		bootloader-led0 = &led0;

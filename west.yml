@@ -3,7 +3,7 @@
 
 manifest:
   self:
-    path: app
+    path: smart-guitar-amp-fw
 
   remotes:
     - name: ncs
