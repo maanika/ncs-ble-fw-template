@@ -45,8 +45,10 @@ jobs:
       - name: 🔨 Build Project
         run: |
           cd zephyr-workspace
-          west build -p -b raytac_mdbt50q_db_20_nrf52820 \
-          app -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
+          west build -p \
+          -b raytac_mdbt50q_db_20_nrf52820 \
+          smart-guitar-amp-fw \
+          -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
 
       - name: 📦 Save Build Artifacts
         uses: actions/upload-artifact@v4
