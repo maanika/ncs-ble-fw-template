@@ -3,7 +3,7 @@
 
 manifest:
   self:
-    west-commands: scripts/west-commands.yml
+    path: smart-guitar-amp-fw
 
   remotes:
     - name: ncs

@@ -1,0 +1,8 @@
+# Raytac MDBT50Q-DB-20 nRF52820 board configuration
+
+# Copyright (c) 2022 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_RAYTAC_MDBT50Q_DB_20_NRF52820
+	bool "Raytac MDBT50Q-DB-20 nRF52820"
+	depends on SOC_NRF52820_QDAA
