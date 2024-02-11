@@ -15,7 +15,7 @@ jobs:
     container:
       # Zephyr toolchain from here:
       # https://github.com/zephyrproject-rtos/docker-image/pkgs/container/ci
-      image: ghcr.io/zephyrproject-rtos/ci:v0.26.6
+      image: ghcr.io/zephyrproject-rtos/ci:v0.26.4
     env:
       # Tell cmake where to find the zephyr sdk
       CMAKE_PREFIX_PATH: /opt/toolchains
