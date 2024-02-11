@@ -47,7 +47,7 @@ jobs:
           cd zephyr-workspace/smart-guitar-amp-fw
           west build -p \
           -b raytac_mdbt50q_db_20_nrf52820 \
-          smart-guitar-amp-fw \
+          app \
           -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
 
       - name: 📦 Save Build Artifacts
