@@ -23,12 +23,13 @@ jobs:
 
       - name: ♻️ Initialize Zephyr Workspace
         run: |
+          . /venv/bin/activate
           cd zephyr-workspace
           west init -l smart-guitar-amp-fw
           west update --narrow -o=--depth=1 --path-cache /zephyr-workspace-cache
 
       - name: 💾 Cache ~/.cache/ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/ccache
           key: ccache-v2-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
@@ -36,7 +37,9 @@ jobs:
             ccache-v2-${{ runner.os }}-
 
       - name: 🔨 Build Project
+        shell: bash
         run: |
+          . /venv/bin/activate
           cd zephyr-workspace/smart-guitar-amp-fw
           ccache -z
           west build -p \
