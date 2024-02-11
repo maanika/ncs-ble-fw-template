@@ -1,0 +1,46 @@
+name: Custom Docker Image
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  custom-docker-image:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/maanika/smart-guitar-amp-fw-app:xxxxxx
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Clone the repo to a subdirectory, so we can initialize the Zephyr
+          # workspace in the parent directory.
+          path: zephyr-workspace/smart-guitar-amp-fw
+
+      - name: ♻️ Initialize Zephyr Workspace
+        run: |
+          cd zephyr-workspace
+          west init -l smart-guitar-amp-fw
+          west update --narrow -o=--depth=1 --path-cache /zephyr-workspace-cache
+
+      - name: 💾 Cache ~/.cache/ccache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ccache
+          key: ccache-v2-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
+          restore-keys: |
+            ccache-v2-${{ runner.os }}-
+
+      - name: 🔨 Build Project
+        run: |
+          cd zephyr-workspace/smart-guitar-amp-fw
+          ccache -z
+          west build -p \
+              -b raytac_mdbt50q_db_20_nrf52820 \
+              app \
+              -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
+          ccache -sv
