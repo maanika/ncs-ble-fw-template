@@ -44,7 +44,7 @@ jobs:
 
       - name: 🔨 Build Project
         run: |
-          cd zephyr-workspace
+          cd zephyr-workspace/smart-guitar-amp-fw
           west build -p \
           -b raytac_mdbt50q_db_20_nrf52820 \
           smart-guitar-amp-fw \
