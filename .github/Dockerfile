@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   xz-utils
 
 # install the Zephyr toolchain only for arm-zephyr-eabi
-ARG ZEPHYR_SDK_VERSION=0.16.4
+ARG ZEPHYR_SDK_VERSION=0.16.1
 RUN wget -q https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_VERSION}/zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64_minimal.tar.xz \
   && mkdir -p /opt/toolchains \
   && tar xf zephyr-sdk-${ZEPHYR_SDK_VERSION}_linux-x86_64_minimal.tar.xz -C /opt/toolchains \

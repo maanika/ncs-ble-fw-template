@@ -13,12 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      # Zephyr toolchain from here:
-      # https://github.com/zephyrproject-rtos/docker-image/pkgs/container/ci
-      image: ghcr.io/zephyrproject-rtos/ci:v0.26.4
-    env:
-      # Tell cmake where to find the zephyr sdk
-      CMAKE_PREFIX_PATH: /opt/toolchains
+      image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,34 +22,34 @@ jobs:
           path: zephyr-workspace/smart-guitar-amp-fw
 
       - name: ♻️ Initialize Zephyr Workspace
-        # Set up the Zephyr workspace and install the Python dependencies
         run: |
+          . /venv/bin/activate
           cd zephyr-workspace
-          rm -rf .west
           west init -l smart-guitar-amp-fw
-          west update
+          west update 
 
       - name: 💾 Cache ~/.cache/ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/ccache
-          key: ccache-v1-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
+          key: ccache-v2-${{ runner.os }}-${{ hashFiles('zephyr-workspace/smart-guitar-amp-fw/west.yml') }}
           restore-keys: |
-            ccache-v1-${{ runner.os }}-
+            ccache-v2-${{ runner.os }}-
 
       - name: 🔨 Build Project
+        shell: bash
         run: |
+          . /venv/bin/activate
           cd zephyr-workspace/smart-guitar-amp-fw
-          west build -p \
-          -b raytac_mdbt50q_db_20_nrf52820 \
-          app \
-          -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
+          ccache -z
+          west build -p -b nrf52833dk_nrf52833 app
+          ccache -sv
 
       - name: 📦 Save Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
-            zephyr-workspace/build/zephyr.hex
-            zephyr-workspace/build/zephyr.bin
-            zephyr-workspace/build/zephyr.elf
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.hex
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.bin
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.elf
