@@ -53,6 +53,6 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            zephyr-workspace/build/zephyr.hex
-            zephyr-workspace/build/zephyr.bin
-            zephyr-workspace/build/zephyr.elf
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.hex
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.bin
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.elf
