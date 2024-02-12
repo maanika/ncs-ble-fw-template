@@ -47,3 +47,12 @@ jobs:
               app \
               -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
           ccache -sv
+
+      - name: 📦 Save Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            zephyr-workspace/build/zephyr.hex
+            zephyr-workspace/build/zephyr.bin
+            zephyr-workspace/build/zephyr.elf
