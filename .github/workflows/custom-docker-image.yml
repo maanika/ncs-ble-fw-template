@@ -13,7 +13,7 @@ jobs:
   custom-docker-image:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-11
+      image: ghcr.io/maanika/smart-guitar-amp-fw-app:2024-02-12
     steps:
       - uses: actions/checkout@v4
         with:
