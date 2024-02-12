@@ -32,7 +32,7 @@ jobs:
           cd zephyr-workspace
           rm -rf .west
           west init -l smart-guitar-amp-fw
-          west update --narrow -o=--depth=1
+          west update
 
       - name: 💾 Cache ~/.cache/ccache
         uses: actions/cache@v3
