@@ -43,7 +43,7 @@ jobs:
           cd zephyr-workspace/smart-guitar-amp-fw
           ccache -z
           west build -p \
-              -b raytac_mdbt50q_db_20_nrf52820 \
+              -b nrf52833dk_nrf52833 \
               app \
               -DBOARD_DIR=boards/arm/raytac_mdbt50q_db_20_nrf52820
           ccache -sv
