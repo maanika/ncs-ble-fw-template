@@ -93,12 +93,8 @@ static int init_button(void)
     return err;
 }
 
-#define VERSION "0.1.0"
-
 int main(void)
 {
-    LOG_INF("Version %s", VERSION);
-
     const struct device *const dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 
     if (usb_enable(NULL)) {
@@ -113,7 +109,6 @@ int main(void)
     //     k_sleep(K_MSEC(100));
     // }
 
-    LOG_INF("LEDs init");
 	int err;
     err = dk_leds_init();
     if (err) {
@@ -121,16 +116,15 @@ int main(void)
         return 0;
 	}
 
-    LOG_INF("Buttons init");
     err = init_button();
     if (err) {
         LOG_ERR("Button init failed (err %d)", err);
         return 0;
     }
 
+    LOG_INF("Build time: " __DATE__ " " __TIME__ "");
     bt_conn_cb_register(&connection_callbacks);
 
-    LOG_INF("BLE init");
     err = bt_enable(NULL);
     if (err) {
         LOG_ERR("Bluetooth init failed (err %d)", err);
