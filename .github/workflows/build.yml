@@ -41,15 +41,19 @@ jobs:
         run: |
           . /venv/bin/activate
           cd zephyr-workspace/smart-guitar-amp-fw
+          echo "$SSH_KEY" > priv-nrf52833dk_nrf52833.pem
           ccache -z
           west build -p -b nrf52833dk_nrf52833 app
           ccache -sv
+        env:
+          SSH_KEY: ${{secrets.PRIV_NRF52833DK_NRF52833}}
 
       - name: 📦 Save Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
-            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.hex
-            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.bin
-            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/zephyr.elf
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/merged.hex
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/app_update.bin
+            zephyr-workspace/smart-guitar-amp-fw/build/zephyr/app_signed.hex
+          if-no-files-found: error
