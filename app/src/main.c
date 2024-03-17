@@ -24,6 +24,7 @@ BUILD_ASSERT(DT_NODE_HAS_COMPAT(DT_CHOSEN(zephyr_console), zephyr_cdc_acm_uart),
 #define USER_BUTTON             DK_BTN1_MSK
 #define RUN_STATUS_LED          DK_LED1
 #define CONNECTION_STATUS_LED   DK_LED2
+#define LED_CHAR_STATUS         DK_LED3
 #define RUN_LED_BLINK_INTERVAL  1000
 
 #define DEVICE_NAME             CONFIG_BT_DEVICE_NAME
@@ -42,6 +43,7 @@ static const struct bt_data ad[] = {
 };
 
 struct bt_conn *my_conn = NULL;
+static struct bt_lbs_cb lbs_cb;
 
 void on_connected(struct bt_conn *conn, uint8_t err)
 {
@@ -93,6 +95,15 @@ static int init_button(void)
     return err;
 }
 
+void led_cb(const bool led_state)
+{
+    if (led_state) {
+        dk_set_led(LED_CHAR_STATUS, 1);
+    } else {
+        dk_set_led(LED_CHAR_STATUS, 0);
+    }
+}
+
 int main(void)
 {
     const struct device *const dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
@@ -121,6 +132,10 @@ int main(void)
         LOG_ERR("Button init failed (err %d)", err);
         return 0;
     }
+
+    lbs_cb.led_cb = led_cb;
+    lbs_cb.button_cb = NULL;
+    bt_lbs_init(&lbs_cb);
 
     LOG_INF("Build time: " __DATE__ " " __TIME__ "");
     bt_conn_cb_register(&connection_callbacks);
