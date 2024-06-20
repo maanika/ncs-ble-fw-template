@@ -1,6 +1,4 @@
-# Smart Guitar Amplifier
-
-TODO: Add Project Description
+# Nordic Connect SDK - BLE Project Template
 
 ## Getting started
 
